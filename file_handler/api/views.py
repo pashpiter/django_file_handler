@@ -2,7 +2,7 @@ from rest_framework import mixins, viewsets, views
 from rest_framework.response import Response
 from files.models import File
 from .serializers import FileSerializer
-from .utils import validate_type
+from .tasks import processing_file
 from rest_framework.parsers import MultiPartParser
 
 
@@ -23,13 +23,13 @@ class FileHandlerView(
         if not request.data:
             return Response({'message': 'No file recieved'}, status=400)
         serializer = FileSerializer(File(), data=request.data)
-
-        r = validate_type(request.data.get('file'))
         if serializer.is_valid():
+            serializer.validated_data['processed'] = False
             serializer.save()
+            processing_file(request.data.get('file'))
             return Response(serializer.data, status=201)
         else:
             return Response(serializer.errors, status=400)
-    
+
     def perform_create(self, serializer):
         return super().perform_create(serializer)

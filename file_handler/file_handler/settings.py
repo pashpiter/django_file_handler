@@ -90,4 +90,4 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CELERY_BROKER_URL = 'amqp://user:password@localhost:5672/vhost'
-CELERY_RESULT_BACKEND = 'db+sqlite:///results.db'
+# CELERY_RESULT_BACKEND = 'db+sqlite:///results.db'
