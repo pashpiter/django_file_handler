@@ -16,8 +16,8 @@ class FileSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 {'message': 'You can not use "ё" in filename'},
                 code=400)
-        to_replace = '& йЙ'
-        replace_with = '__иИ'
+        to_replace = '''!"#$%&'()*+,-/:;<=>?@[\]^_`{|}~ йЙ'''
+        replace_with = '_'*(len(to_replace)-2) + 'иИ'
         for i in range(len(to_replace)):
             attrs['file'].name = attrs['file'].name.replace(
                 to_replace[i], replace_with[i])

@@ -26,31 +26,32 @@ def processing_file(file):
 
 @shared_task
 def image_processing(filename):
-    img = Image.open(os.path.join(BASE_DIR, 'media/uploaded_files/') + filename)
+    img = Image.open(
+        os.path.join(BASE_DIR, 'media/uploaded_files/') + filename)
     if img.format != 'JPEG':
         img = img.convert('RGB')
     output = BytesIO()
     img.save(output, format='JPEG')
     time.sleep(10)
-    update_processed(filename)
+    update_processed.delay(filename)
 
 
 @shared_task
 def text_processing(filename):
     time.sleep(10)
-    update_processed(filename)
+    update_processed.delay(filename)
 
 
 @shared_task
 def audio_processing(filename):
     time.sleep(10)
-    update_processed(filename)
+    update_processed.delay(filename)
 
 
 @shared_task
 def video_processing(filename):
     time.sleep(10)
-    update_processed(filename)
+    update_processed.delay(filename)
 
 
 @shared_task
