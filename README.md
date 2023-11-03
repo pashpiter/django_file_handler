@@ -27,14 +27,18 @@ sudo docker-compose up -d
 ```
 GET http://localhost/
 ```
+```
+curl "http://localhost/"
+```
 * Загрузка файла на сервер
 ```
 POST http://localhost/upload/
+Content-Type: multipart/form-data
 ```
 ```
 curl -X POST "http://localhost/upload/" \
 -H "Content-Type: multipart/form-data" \
--F "file=@{filename}"
+-F "file=@{filepath}"
 ```
 * Получение списка загруженных файлов
 ```
