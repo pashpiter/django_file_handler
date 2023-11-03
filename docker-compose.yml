@@ -34,6 +34,16 @@ services:
     volumes:
       - static_value:/app/static/
       - media_value:/app/media/
+    environment:
+      - D=0
+      - ENGINE=django.db.backends.postgresql
+      - NAME=postgres
+      - USER=postgres
+      - PASSWORD=postgres
+      - HOST=db
+      - PORT=5432
+      - BROKER_URL=amqp://user:password@some-rabbit:5672/vhost
+
 
   celery:
     depends_on:
@@ -44,6 +54,15 @@ services:
     volumes:
       - static_value:/app/static/
       - media_value:/app/media/
+    environment:
+      - D=0
+      - ENGINE=django.db.backends.postgresql
+      - NAME=postgres
+      - USER=postgres
+      - PASSWORD=postgres
+      - HOST=db
+      - PORT=5432
+      - BROKER_URL=amqp://user:password@some-rabbit:5672/vhost
     
   nginx:
     image: nginx:1.25.1-alpine
