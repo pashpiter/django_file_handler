@@ -34,21 +34,21 @@ def image_processing(filename):
 def text_processing(filename):
     """Обработка текста"""
     time.sleep(10)
-    update_processed.delay(filename)
+    update_processed(filename)
 
 
 @shared_task
 def audio_processing(filename):
     """Обработка аудио"""
     time.sleep(10)
-    update_processed.delay(filename)
+    update_processed(filename)
 
 
 @shared_task
 def video_processing(filename):
     """Обработка видео"""
     time.sleep(10)
-    update_processed.delay(filename)
+    update_processed(filename)
 
 
 def update_processed(filename):
