@@ -1,7 +1,8 @@
-.vscode
-.pytest_cache
-venv
-tests
-__pycache__
+.vscode/
+.pytest_cache/
+venv/
+tests/
+__pycache__/
 pytest.ini
 commands.md
+media/
