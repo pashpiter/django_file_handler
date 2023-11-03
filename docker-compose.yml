@@ -43,6 +43,7 @@ services:
       - HOST=db
       - PORT=5432
       - BROKER_URL=amqp://user:password@some-rabbit:5672/vhost
+    restart: always
 
   celery:
     depends_on:
@@ -62,6 +63,7 @@ services:
       - HOST=db
       - PORT=5432
       - BROKER_URL=amqp://user:password@some-rabbit:5672/vhost
+    restart: always
     
   nginx:
     image: nginx:1.25.1-alpine
