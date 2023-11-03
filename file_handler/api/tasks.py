@@ -1,14 +1,13 @@
-from PIL import Image
-from io import BytesIO
-from rest_framework.response import Response
-from celery import shared_task, Task
-from file_handler.settings import BASE_DIR
-import os
-from files.models import File
 import time
+
+from celery import Task, shared_task
+from rest_framework.response import Response
+
+from files.models import File
 
 
 def processing_file(file):
+    """Выбор функции в зависимости от типа файла"""
     allowed_types: dict[str: Task] = {
         'image/jpeg': image_processing,
         'image/jpg': image_processing,
@@ -26,34 +25,33 @@ def processing_file(file):
 
 @shared_task
 def image_processing(filename):
-    img = Image.open(
-        os.path.join(BASE_DIR, 'media/uploaded_files/') + filename)
-    if img.format != 'JPEG':
-        img = img.convert('RGB')
-    output = BytesIO()
-    img.save(output, format='JPEG')
+    """Обработка изображений"""
     time.sleep(10)
-    update_processed.delay(filename)
+    update_processed(filename)
 
 
 @shared_task
 def text_processing(filename):
+    """Обработка текста"""
     time.sleep(10)
     update_processed.delay(filename)
 
 
 @shared_task
 def audio_processing(filename):
+    """Обработка аудио"""
     time.sleep(10)
     update_processed.delay(filename)
 
 
 @shared_task
 def video_processing(filename):
+    """Обработка видео"""
     time.sleep(10)
     update_processed.delay(filename)
 
 
-@shared_task
 def update_processed(filename):
-    File.objects.filter(file='uploaded_files/'+filename).update(processed=True)
+    """Обноление статуса после выболнения обработки"""
+    File.objects.filter(file='uploaded_files/'+filename).update(
+        processed=True)

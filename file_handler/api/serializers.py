@@ -4,6 +4,7 @@ from files.models import File
 
 
 class FileSerializer(serializers.ModelSerializer):
+    """Сериалайзер для Файлов"""
 
     processed = serializers.BooleanField(default=False)
 
@@ -12,11 +13,12 @@ class FileSerializer(serializers.ModelSerializer):
         model = File
 
     def validate(self, attrs):
+        """Валидация атрибутов"""
         if ('Ё' or 'Ё' or 'ё') in attrs['file'].name:
             raise serializers.ValidationError(
                 {'message': 'You can not use "ё" in filename'},
                 code=400)
-        to_replace = '''!"#$%&'()*+,-/:;<=>?@[\]^_`{|}~ йЙ'''
+        to_replace = '''!"#$%&'()*+,-/:;<=>?@[]^`{|}~ йЙ'''
         replace_with = '_'*(len(to_replace)-2) + 'иИ'
         for i in range(len(to_replace)):
             attrs['file'].name = attrs['file'].name.replace(
@@ -26,4 +28,4 @@ class FileSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 {'message': 'This name of file is already exsists'},
                 code=400)
-        return super().validate(attrs)
+        return attrs

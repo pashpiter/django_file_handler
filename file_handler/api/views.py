@@ -1,16 +1,18 @@
-from rest_framework import mixins, viewsets, views
+from rest_framework import mixins, views, viewsets
+from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
-from files.models import File
+
+
 from .serializers import FileSerializer
 from .tasks import processing_file
-from rest_framework.parsers import MultiPartParser
-
+from files.models import File
 
 ALLOWED_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'text/plain',
                  'text/csv', 'audio/mpeg', 'video/mp4']
 
 
 class PingView(views.APIView):
+    """Класс для проверки работы приложения"""
     def get(self, request):
         return Response({'app': 'django_file_handler', 'version': '1.0'},
                         status=200)
@@ -19,6 +21,7 @@ class PingView(views.APIView):
 class FileHandlerView(
     mixins.CreateModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet
 ):
+    """ViewsSet для создания и возврата списка файлов"""
     queryset = File.objects.all()
     serializer_class = FileSerializer
     parser_classes = (MultiPartParser,)
@@ -37,6 +40,3 @@ class FileHandlerView(
             return Response(serializer.data, status=201)
         else:
             return Response(serializer.errors, status=400)
-
-    def perform_create(self, serializer):
-        return super().perform_create(serializer)

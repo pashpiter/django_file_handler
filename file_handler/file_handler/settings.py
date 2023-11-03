@@ -5,7 +5,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-v=^18*bt=ny1=8icc%e)vxc!2fm@^147%z*r^*9)t+@z8=q1o^'
 
-DEBUG = True
+DEBUG = os.environ.get('D', True)
 
 ALLOWED_HOSTS = ['*']
 
@@ -54,12 +54,12 @@ WSGI_APPLICATION = 'file_handler.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'db',
-        'PORT': 5432
+        'ENGINE': os.environ.get('ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': os.environ.get('NAME', os.path.join(BASE_DIR, 'db.sqlite3')),
+        'USER': os.environ.get('USER', 'postgres'),
+        'PASSWORD': os.environ.get('PASSWORD', 'postgres'),
+        'HOST': os.environ.get('HOST', 'db'),
+        'PORT': os.environ.get('POST', 5432)
     }
 }
 
@@ -80,7 +80,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru'
 
-TIME_ZONE = 'Europe/Moscow'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
@@ -93,4 +93,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-CELERY_BROKER_URL = 'amqp://user:password@some-rabbit:5672/vhost'
+CELERY_BROKER_URL = os.environ.get('BROKER_URL', 'amqp://user:password@localhost:5672/vhost')
