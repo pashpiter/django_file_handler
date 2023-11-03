@@ -44,7 +44,6 @@ services:
       - PORT=5432
       - BROKER_URL=amqp://user:password@some-rabbit:5672/vhost
 
-
   celery:
     depends_on:
       - db

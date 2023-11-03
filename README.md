@@ -48,4 +48,14 @@ GET http://localhost/files/
 curl "http://localhost/files/"
 ```
 
+##### Доступ к админке
+* Команда для создания админа-пользователя
+```
+sudo docker-compose exec app python manage.py createsuperuser
+```
+* Админка доступна по адресу
+```
+http://localhost/admin/
+```
+
 #### Pavel Drovnin [@pashpiter](http://t.me/pashpiter)
