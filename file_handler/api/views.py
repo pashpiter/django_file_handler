@@ -35,8 +35,8 @@ class FileHandlerView(
         serializer = FileSerializer(File(), data=request.data)
         if serializer.is_valid():
             serializer.validated_data['processed'] = False
-            serializer.save()
-            processing_file(request.data.get('file'))
+            obj = serializer.save()
+            processing_file(request.data.get('file').content_type, obj.id)
             return Response(serializer.data, status=201)
         else:
             return Response(serializer.errors, status=400)
