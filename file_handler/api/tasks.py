@@ -1,5 +1,4 @@
 import time
-from io import BytesIO
 
 from celery import Task, shared_task
 from django.shortcuts import get_object_or_404
@@ -33,31 +32,34 @@ def image_processing(id: int) -> None:
     if img.format != 'JPEG':
         img = img.convert('RGB')
     img.save(pic.file.path, format='JPEG', quality=70)
-    update_processed(id, pic)
+    update_processed(pic)
 
 
 @shared_task
 def text_processing(id: int) -> None:
     """Обработка текста"""
-    time.sleep(10)
-    update_processed(id)
+    file = get_object_or_404(File, pk=id)
+    time.sleep(5)
+    update_processed(file)
 
 
 @shared_task
 def audio_processing(id: int) -> None:
     """Обработка аудио"""
+    file = get_object_or_404(File, pk=id)
     time.sleep(10)
-    update_processed(id)
+    update_processed(file)
 
 
 @shared_task
 def video_processing(id: int) -> None:
     """Обработка видео"""
+    file = get_object_or_404(File, pk=id)
     time.sleep(10)
-    update_processed(id)
+    update_processed(file)
 
 
-def update_processed(id: int, file: File) -> None:
+def update_processed(file: File) -> None:
     """Обноление статуса после выболнения обработки"""
     file.processed = True
     file.save()
