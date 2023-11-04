@@ -23,7 +23,7 @@ class FileSerializer(serializers.ModelSerializer):
         prefix, postfix = splitext(attrs['file'].name)
         new_name = self.file_rename(prefix)
         attrs['file'].name = (new_name +
-                              '.jpeg' if postfix == '.png' else postfix)
+                              ('.jpeg' if postfix == '.png' else postfix))
         if File.objects.filter(
                         file='uploaded_files/'+attrs['file'].name).exists():
             raise serializers.ValidationError(
