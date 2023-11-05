@@ -5,7 +5,6 @@ from django.shortcuts import get_object_or_404
 from files.models import File
 from PIL import Image
 from rest_framework.response import Response
-import csv
 
 
 def processing_file(content_type: str, id: int) -> Task:
