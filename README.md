@@ -13,7 +13,7 @@
 Для запуска проекта необходимо: 
 * Клонировать репозиторий
 ```
-git clone git@github.com:pashpiter/django_file_handler.git
+git clone https://github.com/pashpiter/django_file_handler.git
 ```
 * Перейти в папку django_file_handler
 
