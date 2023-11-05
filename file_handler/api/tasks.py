@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404
 from files.models import File
 from PIL import Image
 from rest_framework.response import Response
+import csv
 
 
 def processing_file(content_type: str, id: int) -> Task:
@@ -39,7 +40,7 @@ def image_processing(id: int) -> None:
 def text_processing(id: int) -> None:
     """Обработка текста"""
     file = get_object_or_404(File, pk=id)
-    time.sleep(5)
+    text_editing(file.file.path)
     update_processed(file)
 
 
@@ -57,6 +58,21 @@ def video_processing(id: int) -> None:
     file = get_object_or_404(File, pk=id)
     time.sleep(10)
     update_processed(file)
+
+
+def text_editing(path: str) -> None:
+    with open(path, encoding='utf-8') as f:
+        data = f.readlines()
+    for i in range(len(data)):
+        line = list(data[i])
+        for j in range(len(line)):
+            if line[j] == 'R':
+                line[j] == 'Я'
+            elif line[j] == ('B'):
+                line[j] = 'Б'
+        data[i] = ''.join(line)
+    with open(path, 'w', encoding='utf-8') as f:
+        f.write(''.join(data))
 
 
 def update_processed(file: File) -> None:
