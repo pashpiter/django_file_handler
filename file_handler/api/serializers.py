@@ -8,7 +8,7 @@ from files.models import File
 class FileSerializer(serializers.ModelSerializer):
     """Сериалайзер для Файлов"""
 
-    processed = serializers.BooleanField(default=False)
+    processed = serializers.BooleanField(default=False, read_only=True)
 
     class Meta:
         fields = ('id', 'file', 'uploaded_at', 'processed')
