@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404
 from files.models import File
 from PIL import Image
 from rest_framework.response import Response
+import translators as ts
 
 
 def processing_file(content_type: str, id: int) -> Task:
@@ -39,7 +40,7 @@ def image_processing(id: int) -> None:
 def text_processing(id: int) -> None:
     """Обработка текста"""
     file = get_object_or_404(File, pk=id)
-    text_editing(file.file.path)
+    text_translate(file.file.path)
     update_processed(file)
 
 
@@ -59,19 +60,17 @@ def video_processing(id: int) -> None:
     update_processed(file)
 
 
-def text_editing(path: str) -> None:
+def text_translate(path: str) -> None:
     with open(path, encoding='utf-8') as f:
         data = f.readlines()
     for i in range(len(data)):
-        line = list(data[i])
-        for j in range(len(line)):
-            if line[j] == 'R':
-                line[j] == 'Я'
-            elif line[j] == ('B'):
-                line[j] = 'Б'
-        data[i] = ''.join(line)
+        if data[i] != '\n':
+            data[i] = ts.translate_text(
+                data[i], translator='google', to_language='ru')
+        else:
+            data[i] == '\n'
     with open(path, 'w', encoding='utf-8') as f:
-        f.write(''.join(data))
+        f.write('\n'.join(data))
 
 
 def update_processed(file: File) -> None:
