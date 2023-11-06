@@ -61,6 +61,7 @@ def video_processing(id: int) -> None:
 
 
 def text_translate(path: str) -> None:
+    """Перевод текста"""
     with open(path, encoding='utf-8') as f:
         data = f.readlines()
     for i in range(len(data)):
