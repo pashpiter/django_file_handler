@@ -1,11 +1,8 @@
-import time
-
 from celery import Task, shared_task
 from django.shortcuts import get_object_or_404
-from files.models import File
 from PIL import Image
-from rest_framework.response import Response
-import translators as ts
+
+from files.models import File
 
 
 def processing_file(content_type: str, id: int) -> Task:
@@ -19,9 +16,6 @@ def processing_file(content_type: str, id: int) -> Task:
         'audio/mpeg': audio_processing,
         'video/mp4': video_processing
     }
-    if content_type not in allowed_types:
-        return Response({'message': 'This type of file is not allowed'},
-                        status=403)
     return allowed_types[content_type].delay(id)
 
 
@@ -48,7 +42,6 @@ def text_processing(id: int) -> None:
 def audio_processing(id: int) -> None:
     """Обработка аудио"""
     file = get_object_or_404(File, pk=id)
-    time.sleep(10)
     update_processed(file)
 
 
@@ -56,22 +49,26 @@ def audio_processing(id: int) -> None:
 def video_processing(id: int) -> None:
     """Обработка видео"""
     file = get_object_or_404(File, pk=id)
-    time.sleep(10)
     update_processed(file)
 
 
 def text_translate(path: str) -> None:
-    """Перевод текста"""
-    with open(path, encoding='utf-8') as f:
-        data = f.readlines()
-    for i in range(len(data)):
-        if data[i] != '\n':
-            data[i] = ts.translate_text(
-                data[i], translator='google', to_language='ru')
-        else:
-            data[i] == '\n'
-    with open(path, 'w', encoding='utf-8') as f:
-        f.write('\n'.join(data))
+    """Перевод текста (работает только с интернетом)"""
+    try:
+        import translators as ts
+
+        with open(path, encoding='utf-8') as f:
+            data = f.readlines()
+        for i in range(len(data)):
+            if data[i] != '\n':
+                data[i] = ts.translate_text(
+                    data[i], translator='google', to_language='ru')
+            else:
+                data[i] == '\n'
+        with open(path, 'w', encoding='utf-8') as f:
+            f.write('\n'.join(data))
+    except Exception as e:
+        raise e
 
 
 def update_processed(file: File) -> None:
