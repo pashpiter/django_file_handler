@@ -9,4 +9,4 @@ class File(models.Model):
                             upload_to='uploaded_files/')
     uploaded_at = models.DateTimeField(verbose_name='Время загрузки',
                                        auto_now=True,)
-    processed = models.BooleanField(verbose_name='Обработка')
+    processed = models.BooleanField(verbose_name='Обработка', default=False)
