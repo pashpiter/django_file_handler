@@ -26,29 +26,36 @@ class FileModelTests(TestCase):
 
     @classmethod
     def tearDownClass(cls):
+        """Удаление временных файлов после выполнения тестов"""
         super().tearDownClass()
         shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True,)
 
     def test_file_verbose_name(self):
+        """Проверка verbose_name у поля file"""
         real_verbose_name = getattr(self.file_field, 'verbose_name')
         self.assertEqual(real_verbose_name, 'Имя файла')
 
     def test_file_upload_to(self):
+        """Проверка параметра upload_to у поля file"""
         real_path = getattr(self.file_field, 'upload_to')
         self.assertEqual(real_path, 'uploaded_files/')
 
     def test_uploaded_at_verbose_name(self):
+        """Проверка verbose_name у поля upload_at"""
         real_verbose_name = getattr(self.uploaded_at_filed, 'verbose_name')
         self.assertEqual(real_verbose_name, 'Время загрузки')
 
     def test_uploaded_at_auto_now(self):
+        """Проверка поля добавеления времени в автоматическом режиме"""
         real_auto_now = getattr(self.uploaded_at_filed, 'auto_now')
         self.assertTrue(real_auto_now)
 
     def test_processed_verbose_name(self):
+        """Проверка verbose_name у поля processed"""
         real_verbose_name = getattr(self.processed_filed, 'verbose_name')
         self.assertEqual(real_verbose_name, 'Обработка')
 
     def test_processed_default(self):
+        """Проверка дефолтного значения у поля processed"""
         real_deafult = getattr(self.processed_filed, 'default')
         self.assertEqual(real_deafult, False)

@@ -21,10 +21,12 @@ class CeleryTasksTest(TestCase):
 
     @classmethod
     def tearDownClass(cls):
+        """Удаление временных файлов после выполнения тестов"""
         super().tearDownClass()
         shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True,)
 
     def test_image_processing(self):
+        """Проверка обработки изображения"""
         path = os.path.join(BASE_DIR, 'tests/logo_apple_jpg.jpeg')
         filesize_before_processing = os.stat(path).st_size
         with open(path, 'rb') as f:
@@ -37,6 +39,7 @@ class CeleryTasksTest(TestCase):
                             filesize_before_processing)
 
     def test_text_processing(self):
+        """Проверка обработки текста"""
         f = SimpleUploadedFile('test.txt', b'test content', 'text/plain')
         test_file = File.objects.create(file=f)
         text_processing(test_file.id)
@@ -45,6 +48,7 @@ class CeleryTasksTest(TestCase):
         self.assertEqual(text, 'тестовый контент')
 
     def test_video_processing(self):
+        """Проверка обработки видео"""
         f = SimpleUploadedFile('test_video.mp4', b'test content', 'video/mp4')
         test_file = File.objects.create(file=f)
         video_processing(test_file.id)
@@ -52,6 +56,7 @@ class CeleryTasksTest(TestCase):
         self.assertEqual(mt[0], 'video/mp4')
 
     def test_audio_processingo(self):
+        """Проверка обработки аудио"""
         f = SimpleUploadedFile('test_audio.mp3', b'test content', 'audio/mpeg')
         test_file = File.objects.create(file=f)
         audio_processing(test_file.id)
@@ -59,6 +64,7 @@ class CeleryTasksTest(TestCase):
         self.assertEqual(mt[0], 'audio/mpeg')
 
     def test_update_processing(self):
+        """Проверка обработки поля processed после окончания обработки"""
         f = SimpleUploadedFile('test_processed.txt', b'test content',
                                'text/plain')
         test_file = File.objects.create(file=f)
