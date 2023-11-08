@@ -27,7 +27,7 @@ class FileModelTests(TestCase):
     @classmethod
     def tearDownClass(cls):
         super().tearDownClass()
-        shutil.rmtree(os.path.join(BASE_DIR, 'tmp'), ignore_errors=True,)
+        shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True,)
 
     def test_file_verbose_name(self):
         real_verbose_name = getattr(self.file_field, 'verbose_name')

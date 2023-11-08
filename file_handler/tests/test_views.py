@@ -26,33 +26,35 @@ class FileViewsTest(TestCase):
 
     def test_ping(self):
         response: Response = self.client.get('')
-        assert response.status_code == 200
-        assert response.data == {'app': 'django_file_handler',
-                                 'version': '1.0'}
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, {'app': 'django_file_handler',
+                         'version': '1.0'})
 
     def test_post_empty_data(self):
         empty_data = {}
         response: Response = self.client.post('/upload/', data=empty_data)
-        assert response.status_code == 400
-        assert response.data['message'] == 'No file recieved'
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.data['message'], 'No file recieved')
 
     def test_post_image_file(self):
         with open(os.path.join(BASE_DIR, 'tests/apple.png'), 'rb') as f:
             data = {'file': f}
             response: Response = self.client.post('/upload/', data=data)
-        assert response.status_code == 201
-        assert response.data['file'] == '/media/uploaded_files/apple.jpeg'
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data['file'],
+                         '/media/uploaded_files/apple.jpeg')
 
     def test_post_text_file(self):
         f = SimpleUploadedFile('test.txt', b'test content', 'text/plain')
         data = {'file': f}
         response: Response = self.client.post('/upload/', data=data)
-        assert response.status_code == 201
-        assert response.data['file'] == '/media/uploaded_files/test.txt'
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data['file'],
+                         '/media/uploaded_files/test.txt')
 
     def test_invalid_post(self):
         f = SimpleUploadedFile('test.gif', b'test content', 'image/gif')
         data = {'file': f}
         response: Response = self.client.post('/upload/', data=data)
-        assert response.status_code == 403
-        assert 'not allowed' in response.data['message'].lower()
+        self.assertEqual(response.status_code, 403)
+        self.assertTrue('not allowed' in response.data['message'].lower())
