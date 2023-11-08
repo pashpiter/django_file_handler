@@ -8,7 +8,7 @@ from django.test import TestCase, override_settings
 from file_handler.settings import BASE_DIR
 from files.models import File
 
-TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=os.path.join(BASE_DIR, 'tmp'))
+TEMP_MEDIA_ROOT = tempfile.mkdtemp(BASE_DIR)
 
 
 @override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)
