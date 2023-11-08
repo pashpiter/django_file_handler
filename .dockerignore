@@ -8,3 +8,4 @@ commands.md
 media/
 *.sqlite3
 tmp/
+tmp*/
