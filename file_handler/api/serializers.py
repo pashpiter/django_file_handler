@@ -32,7 +32,7 @@ class FileSerializer(serializers.ModelSerializer):
         return attrs
 
     def file_rename(self, file_name: str) -> str:
-        to_replace = '''!"#$%&'()*+,.-/:;<=>?@[]^`{|}~ йЙ'''
+        to_replace = '''!"#$%&'()*+,.-/—:;<=>?@[]^`{|}~ йЙ'''
         replace_with = '_'*(len(to_replace)-2) + 'иИ'
         for i in range(len(to_replace)):
             file_name = file_name.replace(
