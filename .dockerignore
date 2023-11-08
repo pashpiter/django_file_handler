@@ -7,3 +7,4 @@ pytest.ini
 commands.md
 media/
 *.sqlite3
+tmp/
