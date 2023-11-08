@@ -1,4 +1,3 @@
-import os
 import shutil
 import tempfile
 
@@ -8,7 +7,7 @@ from django.test import TestCase, override_settings
 from file_handler.settings import BASE_DIR
 from files.models import File
 
-TEMP_MEDIA_ROOT = tempfile.mkdtemp(BASE_DIR)
+TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=BASE_DIR)
 
 
 @override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)

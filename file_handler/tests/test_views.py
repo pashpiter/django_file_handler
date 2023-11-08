@@ -8,7 +8,7 @@ from rest_framework.response import Response
 
 from file_handler.settings import BASE_DIR
 
-TEMP_MEDIA_ROOT = tempfile.mkdtemp(BASE_DIR)
+TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=BASE_DIR)
 
 
 @override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)
