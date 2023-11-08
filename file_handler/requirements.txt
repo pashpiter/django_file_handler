@@ -10,6 +10,7 @@ click==8.1.7
 click-didyoumean==0.3.0
 click-plugins==1.1.1
 click-repl==0.3.0
+coverage==7.3.2
 cryptography==41.0.5
 dill==0.3.7
 Django==4.2.6
@@ -40,6 +41,9 @@ prompt-toolkit==3.0.39
 psycopg2-binary==2.9.9
 pycparser==2.21
 PyExecJS==1.5.1
+pytest==7.4.3
+pytest-cov==4.1.0
+pytest-django==4.6.0
 python-dateutil==2.8.2
 pytz==2023.3.post1
 requests==2.31.0
