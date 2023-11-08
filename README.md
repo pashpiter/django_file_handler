@@ -59,4 +59,13 @@ sudo docker-compose exec app python manage.py createsuperuser
 http://localhost/admin/
 ```
 
+* Проект покрыт тестами, для запуска, перейдите в директорию
+```
+django_file_handler/file_handler
+```
+и запустите тесты командой
+```
+pytest
+```
+
 #### Pavel Drovnin [@pashpiter](http://t.me/pashpiter)
