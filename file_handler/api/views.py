@@ -40,3 +40,8 @@ class FileHandlerView(
             return Response(serializer.data, status=201)
         else:
             return Response(serializer.errors, status=400)
+
+    def get_queryset(self):
+        if self.kwargs:
+            return self.queryset.filter(pk=self.kwargs['pk'])
+        return self.queryset

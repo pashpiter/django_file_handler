@@ -8,5 +8,7 @@ urlpatterns = [
     path('upload/',
          FileHandlerView.as_view({'post': 'create'}),
          name='upload'),
-    path('files/', FileHandlerView.as_view({'get': 'list'}), name='file_list')
+    path('files/<int:pk>/', FileHandlerView.as_view({'get': 'list'}),
+         name='file_list_pk'),
+    path('files/', FileHandlerView.as_view({'get': 'list'}), name='file_list'),
 ]
